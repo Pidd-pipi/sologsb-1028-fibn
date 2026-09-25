@@ -42,7 +42,8 @@ const components: ComponentSpec[] = [
     ],
     revision: 3,
     updatedAt: now,
-    snapshots: []
+    snapshots: [],
+    activeRevision: null
   },
   {
     id: 'field-spec',
@@ -74,7 +75,8 @@ const components: ComponentSpec[] = [
     ],
     revision: 2,
     updatedAt: now,
-    snapshots: []
+    snapshots: [],
+    activeRevision: null
   },
   {
     id: 'dialog-spec',
@@ -106,7 +108,8 @@ const components: ComponentSpec[] = [
     ],
     revision: 2,
     updatedAt: now,
-    snapshots: []
+    snapshots: [],
+    activeRevision: null
   }
 ];
 
