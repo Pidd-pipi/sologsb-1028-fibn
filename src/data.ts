@@ -42,13 +42,14 @@ const components: ComponentSpec[] = [
     ],
     revision: 3,
     updatedAt: now,
-    snapshots: []
+    snapshots: [],
+    activeRevision: null
   },
   {
     id: 'field-spec',
     name: 'Labelled field',
     category: 'Forms',
-    status: 'review',
+    status: 'published',
     purpose: '收集单行文本，并始终向所有用户暴露字段名称。',
     usage: '标签放在输入框上方；帮助文本解释格式，错误文本说明修复方式。',
     properties: [
@@ -74,7 +75,164 @@ const components: ComponentSpec[] = [
     ],
     revision: 2,
     updatedAt: now,
-    snapshots: []
+    snapshots: [],
+    activeRevision: {
+      id: 'revision-field-3',
+      phase: 'editing',
+      baseRevision: 2,
+      base: {
+        name: 'Labelled field',
+        category: 'Forms',
+        purpose: '收集单行文本，并始终向所有用户暴露字段名称。',
+        usage: '标签放在输入框上方；帮助文本解释格式，错误文本说明修复方式。',
+        properties: [
+          { id: 'p-field-label', name: 'label', type: 'string', required: true, defaultValue: '组件名称', description: '字段可见标签，并关联输入框。' },
+          { id: 'p-field-required', name: 'required', type: 'boolean', required: false, defaultValue: 'false', description: '标记必填；提交后再显示错误。' },
+          { id: 'p-field-help', name: 'helpText', type: 'string', required: false, defaultValue: '', description: '输入前帮助信息。' }
+        ],
+        states: 'empty、filled、focus-visible、invalid、disabled、read-only。',
+        keyboardBehavior: 'Tab 进入和离开，文本编辑沿用平台按键。',
+        screenReader: 'label 与 input 使用 for/id 关联，errorText 通过 aria-describedby 暴露。',
+        disabledScenarios: '短枚举选项不应使用文本框。',
+        interactionSignature: 'Tab 聚焦；invalid 时 aria-invalid=true',
+        examples: [
+          {
+            id: 'example-field-default',
+            title: '必填组件名称',
+            code: '<sp-field-label for="name">组件名称</sp-field-label>\n<sp-textfield id="name" required></sp-textfield>',
+            propertyIds: ['p-field-label', 'p-field-required'],
+            stale: false,
+            staleReason: '',
+            createdFromRevision: 2
+          }
+        ]
+      },
+      content: {
+        name: 'Labelled field',
+        category: 'Forms',
+        purpose: '收集单行文本，并始终向所有用户暴露字段名称。',
+        usage: '标签放在输入框上方；帮助文本解释格式，错误文本说明修复方式。',
+        properties: [
+          { id: 'p-field-label', name: 'label', type: 'string', required: true, defaultValue: '组件名称', description: '字段可见标签，并关联输入框。' },
+          { id: 'p-field-required', name: 'required', type: 'boolean', required: false, defaultValue: 'false', description: '标记必填；提交后再显示错误。' },
+          { id: 'p-field-help', name: 'helpText', type: 'string', required: false, defaultValue: '', description: '输入前帮助信息。' }
+        ],
+        states: 'empty、filled、focus-visible、invalid、disabled、read-only。',
+        keyboardBehavior: 'Tab 进入和离开，文本编辑沿用平台按键。',
+        screenReader: 'label 与 input 使用 for/id 关联，errorText 通过 aria-describedby 暴露；invalid 时播报错误摘要。',
+        disabledScenarios: '短枚举选项不应使用文本框。',
+        interactionSignature: 'Tab 聚焦；invalid 时 aria-invalid=true，错误文本与输入框联动',
+        examples: [
+          {
+            id: 'example-field-default',
+            title: '必填组件名称',
+            code: '<sp-field-label for="name">组件名称</sp-field-label>\n<sp-textfield id="name" required></sp-textfield>',
+            propertyIds: ['p-field-label', 'p-field-required'],
+            stale: true,
+            staleReason: '交互行为或键盘说明已修改，关联示例需要复核。',
+            createdFromRevision: 2
+          }
+        ]
+      },
+      pendingExampleIds: ['example-field-default'],
+      reviewComment: '',
+      createdAt: now,
+      updatedAt: now,
+      submittedAt: null
+    }
+  },
+  {
+    id: 'alert-spec',
+    name: 'Inline alert',
+    category: 'Feedback',
+    status: 'published',
+    purpose: '在页面内展示与上下文相关的状态信息。',
+    usage: '用于不打断流程的提示；需要用户立即处理的内容使用对话框。',
+    properties: [
+      { id: 'p-alert-variant', name: 'variant', type: 'info | success | warning | error', required: false, defaultValue: 'info', description: '状态级别，影响颜色与图标。' },
+      { id: 'p-alert-heading', name: 'heading', type: 'string', required: false, defaultValue: '', description: '标题；为空时读屏直接播报正文。' }
+    ],
+    states: 'default、dismissed。',
+    keyboardBehavior: '静态展示无需键盘交互；如含关闭按钮，Tab 聚焦后 Enter 触发。',
+    screenReader: 'role=status；variant 为 error 时使用 role=alert 立即播报。',
+    disabledScenarios: '不要用于营销内容；不要在同一区域堆叠多条 alert。',
+    interactionSignature: '无交互；可选关闭按钮',
+    examples: [
+      {
+        id: 'example-alert-success',
+        title: '保存成功提示',
+        code: '<sp-alert variant="success" heading="已保存">所有更改已同步。</sp-alert>',
+        propertyIds: ['p-alert-variant', 'p-alert-heading'],
+        stale: false,
+        staleReason: '',
+        createdFromRevision: 2
+      }
+    ],
+    revision: 2,
+    updatedAt: now,
+    snapshots: [],
+    activeRevision: {
+      id: 'revision-alert-3',
+      phase: 'inReview',
+      baseRevision: 2,
+      base: {
+        name: 'Inline alert',
+        category: 'Feedback',
+        purpose: '在页面内展示与上下文相关的状态信息。',
+        usage: '用于不打断流程的提示；需要用户立即处理的内容使用对话框。',
+        properties: [
+          { id: 'p-alert-variant', name: 'variant', type: 'info | success | warning | error', required: false, defaultValue: 'info', description: '状态级别，影响颜色与图标。' },
+          { id: 'p-alert-heading', name: 'heading', type: 'string', required: false, defaultValue: '', description: '标题；为空时读屏直接播报正文。' }
+        ],
+        states: 'default、dismissed。',
+        keyboardBehavior: '静态展示无需键盘交互；如含关闭按钮，Tab 聚焦后 Enter 触发。',
+        screenReader: 'role=status；variant 为 error 时使用 role=alert 立即播报。',
+        disabledScenarios: '不要用于营销内容；不要在同一区域堆叠多条 alert。',
+        interactionSignature: '无交互；可选关闭按钮',
+        examples: [
+          {
+            id: 'example-alert-success',
+            title: '保存成功提示',
+            code: '<sp-alert variant="success" heading="已保存">所有更改已同步。</sp-alert>',
+            propertyIds: ['p-alert-variant', 'p-alert-heading'],
+            stale: false,
+            staleReason: '',
+            createdFromRevision: 2
+          }
+        ]
+      },
+      content: {
+        name: 'Inline alert',
+        category: 'Feedback',
+        purpose: '在页面内展示与上下文相关的状态信息。',
+        usage: '用于不打断流程的提示；需要用户立即处理的内容使用对话框。',
+        properties: [
+          { id: 'p-alert-variant', name: 'variant', type: 'neutral | info | success | warning | error', required: false, defaultValue: 'info', description: '状态级别，影响颜色与图标；neutral 用于无状态信息。' },
+          { id: 'p-alert-heading', name: 'heading', type: 'string', required: false, defaultValue: '', description: '标题；为空时读屏直接播报正文。' }
+        ],
+        states: 'default、dismissed。',
+        keyboardBehavior: '静态展示无需键盘交互；如含关闭按钮，Tab 聚焦后 Enter 触发。',
+        screenReader: 'variant 为 warning 或 error 时使用 role=alert 立即播报，其余使用 role=status。',
+        disabledScenarios: '不要用于营销内容；不要在同一区域堆叠多条 alert。',
+        interactionSignature: '无交互；可选关闭按钮',
+        examples: [
+          {
+            id: 'example-alert-success',
+            title: '保存成功提示',
+            code: '<sp-alert variant="success" heading="已保存">所有更改已同步。</sp-alert>',
+            propertyIds: ['p-alert-variant', 'p-alert-heading'],
+            stale: false,
+            staleReason: '',
+            createdFromRevision: 2
+          }
+        ]
+      },
+      pendingExampleIds: [],
+      reviewComment: '',
+      createdAt: now,
+      updatedAt: now,
+      submittedAt: now
+    }
   },
   {
     id: 'dialog-spec',
@@ -106,7 +264,8 @@ const components: ComponentSpec[] = [
     ],
     revision: 2,
     updatedAt: now,
-    snapshots: []
+    snapshots: [],
+    activeRevision: null
   }
 ];
 
